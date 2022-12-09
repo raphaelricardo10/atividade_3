@@ -5,12 +5,12 @@ use csv;
 
 use super::graph_file_entries::{Header, Record};
 
-pub(crate) struct GraphFileReader<'a> {
-    filename: &'a str,
+pub(crate) struct GraphFileReader {
+    filename: String,
 }
 
-impl<'a> GraphFileReader<'a> {
-    pub(crate) fn new(filename: &'a str) -> Self {
+impl GraphFileReader {
+    pub(crate) fn new(filename: String) -> Self {
         Self { filename }
     }
 
@@ -18,7 +18,7 @@ impl<'a> GraphFileReader<'a> {
         csv::ReaderBuilder::new()
             .has_headers(false)
             .delimiter(b' ')
-            .from_path(self.filename)
+            .from_path(&self.filename)
     }
 
     pub(crate) fn read_file(&self) -> Result<Graph, Box<dyn Error>> {
