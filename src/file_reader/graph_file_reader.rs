@@ -18,6 +18,7 @@ impl GraphFileReader {
         csv::ReaderBuilder::new()
             .has_headers(false)
             .delimiter(b' ')
+            .flexible(true)
             .from_path(&self.filename)
     }
 
@@ -41,6 +42,16 @@ impl GraphFileReader {
     }
 
     pub(crate) fn read_records(reader: &mut csv::Reader<File>) -> HashSet<(u32, u32)> {
-        todo!()
+        let headers = csv::StringRecord::from(vec!["e", "from", "to"]);
+
+        reader
+            .records()
+            .skip(1)
+            .map(|line| {
+                let record: Record = line.unwrap().deserialize(Some(&headers)).unwrap();
+
+                (record.from, record.to)
+            })
+            .collect()
     }
 }
