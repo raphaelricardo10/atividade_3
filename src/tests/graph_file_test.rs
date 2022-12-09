@@ -20,3 +20,11 @@ fn test_can_read_csv_header(graph_file_reader: GraphFileReader) {
     assert_eq!(header.num_edges, 320);
 }
 
+#[rstest]
+fn test_can_read_csv_records(graph_file_reader: GraphFileReader) {
+    let mut reader = graph_file_reader.make_reader().unwrap();
+
+    let records = GraphFileReader::read_records(&mut reader);
+
+    assert_eq!(records.len(), 320);
+}
