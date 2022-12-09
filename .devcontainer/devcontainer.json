@@ -2,8 +2,15 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/rust
 {
 	"name": "Rust",
-	"image": "mcr.microsoft.com/devcontainers/rust:0-1-bullseye"
-
+	"image": "mcr.microsoft.com/devcontainers/rust:0-1-bullseye",
+	"mounts": [
+		"source=/Applications/CPLEX_Studio221/cplex,target=/mounts/cplex,type=bind,consistency=cached"
+	],
+	"containerEnv": {
+		"INSTANCES_PATH":"/workspaces/rust/instances",
+		"CPLEX_HOME":"/mounts/cplex"
+	}
+	
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 
