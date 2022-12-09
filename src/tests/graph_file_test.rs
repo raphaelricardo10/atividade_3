@@ -1,30 +1,22 @@
-use std::env;
-
-use dotenv::dotenv;
+use super::fixtures::graph_file::{filename, graph_file_reader};
 use crate::file_reader::graph_file_reader::GraphFileReader;
+use rstest::rstest;
 
-#[test]
-fn test_can_read_file() {
-    let filename = "../TPI_BC_COL_1.txt";
-
+#[rstest]
+fn test_can_read_file(filename: String) {
     let graph = GraphFileReader::new(filename).read_file().unwrap();
 
     assert_eq!(graph.num_vertex, 25);
     assert_eq!(graph.num_edges, 320);
 }
 
-#[test]
-fn test_can_read_csv_header() {
-    dotenv().ok();
-    let filename = format!("{}/TPI_BC_COL_0.txt", dotenv::var("INSTANCES_PATH").unwrap());
-
-    let mut reader = csv::ReaderBuilder::new()
-        .has_headers(false)
-        .delimiter(b' ')
-        .from_path(filename).unwrap();
+#[rstest]
+fn test_can_read_csv_header(graph_file_reader: GraphFileReader) {
+    let mut reader = graph_file_reader.make_reader().unwrap();
 
     let header = GraphFileReader::read_header(&mut reader);
 
     assert_eq!(header.num_vertex, 25);
     assert_eq!(header.num_edges, 320);
 }
+
