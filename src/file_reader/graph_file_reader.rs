@@ -5,12 +5,12 @@ use csv;
 
 use super::graph_file_entries::{Header, Record};
 
-pub(crate) struct GraphFileReader {
+pub struct GraphFileReader {
     filename: String,
 }
 
 impl GraphFileReader {
-    pub(crate) fn new(filename: String) -> Self {
+    pub fn new(filename: String) -> Self {
         Self { filename }
     }
 
@@ -22,7 +22,7 @@ impl GraphFileReader {
             .from_path(&self.filename)
     }
 
-    pub(crate) fn read_file(&self) -> Result<Graph, Box<dyn Error>> {
+    pub fn read_file(&self) -> Result<Graph, Box<dyn Error>> {
         let mut reader = self.make_reader().unwrap();
 
         let header = Self::read_header(&mut reader);
