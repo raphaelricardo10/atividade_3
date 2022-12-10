@@ -1,7 +1,8 @@
 use std::collections::HashSet;
 
-type Edge = (u32, u32);
-type EdgeSet = HashSet<Edge>;
+pub(crate) type Vertex = u32;
+pub(crate) type Edge = (Vertex, Vertex);
+pub(crate) type EdgeSet = HashSet<Edge>;
 
 pub(crate) struct Graph {
     pub num_edges: u32,
