@@ -9,7 +9,11 @@
 	"containerEnv": {
 		"INSTANCES_PATH":"/workspaces/atividade_3/instances",
 		"CPLEX_HOME":"/mounts/cplex"
-	}
+	},
+	"extensions": [
+		"streetsidesoftware.code-spell-checker",
+		"redjue.git-commit-plugin"
+	]
 	
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
