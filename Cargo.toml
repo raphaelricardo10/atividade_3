@@ -1,5 +1,5 @@
 [package]
-name = "rust"
+name = "graph_col_solver"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,8 +7,12 @@ edition = "2021"
 
 [dependencies]
 csv = "1.1"
+libc = "0.2.138"
 rand = "0.8.5"
 rand_chacha = "0.3.1"
 rstest = "0.16.0"
 serde = { version = "1.0", features = ["derive"] }
-cplex-sys = "^0.9"
+
+[dependencies.pyo3]
+version = "0.17.3"
+features = ["auto-initialize"]
