@@ -1,32 +1,33 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/rust
 {
-	"name": "Rust",
-	"image": "mcr.microsoft.com/devcontainers/rust:0-1-bullseye",
+	"name": "atividade_3",
+	"workspaceFolder": "/workspaces/atividade_3",
+	// "build": {
+	// 	"dockerfile": "Dockerfile"
+	// },
+	"dockerComposeFile": "docker-compose.yml",
+    "service": "workspace",
 	"mounts": [
 		"source=/Applications/CPLEX_Studio221/cplex,target=/mounts/cplex,type=bind,consistency=cached"
 	],
 	"containerEnv": {
-		"INSTANCES_PATH":"/workspaces/atividade_3/instances",
-		"CPLEX_HOME":"/mounts/cplex"
+		"INSTANCES_PATH": "/workspaces/atividade_3/instances",
+		"CPLEX_HOME": "/opt/ibm/ILOG/CPLEX_Studio221"
 	},
 	"extensions": [
 		"streetsidesoftware.code-spell-checker",
-		"redjue.git-commit-plugin"
-	]
-	
+		"redjue.git-commit-plugin",
+		"ms-python.python"
+	],
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
-
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
-
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "rustc --version",
-
 	// Configure tool-specific properties.
 	// "customizations": {},
-
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+	"remoteUser": "root"
 }
