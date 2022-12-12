@@ -46,7 +46,6 @@ impl GraphFileReader {
 
         reader
             .records()
-            .skip(1)
             .map(|line| {
                 let record: Record = line.unwrap().deserialize(Some(&headers)).unwrap();
 
