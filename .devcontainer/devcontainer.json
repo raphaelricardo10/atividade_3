@@ -9,9 +9,6 @@
 	},
 	// "dockerComposeFile": "docker-compose.yml",
     // "service": "workspace",
-	"mounts": [
-		"source=/Applications/CPLEX_Studio221/cplex,target=/mounts/cplex,type=bind,consistency=cached"
-	],
 	"containerEnv": {
 		"INSTANCES_PATH": "/workspaces/atividade_3/instances",
 		"CPLEX_HOME": "/opt/ibm/ILOG/CPLEX_Studio221"
