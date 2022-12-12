@@ -3,11 +3,12 @@
 {
 	"name": "atividade_3",
 	"workspaceFolder": "/workspaces/atividade_3",
-	// "build": {
-	// 	"dockerfile": "Dockerfile"
-	// },
-	"dockerComposeFile": "docker-compose.yml",
-    "service": "workspace",
+	"build": {
+		"context": "..",
+		"dockerfile": "Dockerfile"
+	},
+	// "dockerComposeFile": "docker-compose.yml",
+    // "service": "workspace",
 	"mounts": [
 		"source=/Applications/CPLEX_Studio221/cplex,target=/mounts/cplex,type=bind,consistency=cached"
 	],
@@ -19,7 +20,7 @@
 		"streetsidesoftware.code-spell-checker",
 		"redjue.git-commit-plugin",
 		"ms-python.python"
-	],
+	]
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
@@ -29,5 +30,5 @@
 	// Configure tool-specific properties.
 	// "customizations": {},
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	"remoteUser": "root"
+	// "remoteUser": "root"
 }

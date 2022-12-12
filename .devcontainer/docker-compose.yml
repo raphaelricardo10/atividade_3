@@ -7,7 +7,7 @@ services:
     init: true
     volumes:
       # Use a named volume for the source code
-      - .:/workspace
+      - ..:/workspaces/atividade_3
       # Persist VS Code extensions between rebuilds
       - vscode-extensions:/root/.vscode-server/extensions
       # And/or for VS Code Insiders
