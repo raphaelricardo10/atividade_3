@@ -1,0 +1,6 @@
+certifi==2019.9.11
+chardet==3.0.4
+cplex==22.1.0.0
+docplex==2.24.232
+idna==2.8
+six==1.12.0
