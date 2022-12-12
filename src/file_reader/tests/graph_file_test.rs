@@ -23,6 +23,7 @@ fn test_can_read_csv_header(graph_file_reader: GraphFileReader) {
 #[rstest]
 fn test_can_read_csv_records(graph_file_reader: GraphFileReader) {
     let mut reader = graph_file_reader.make_reader().unwrap();
+    reader.records().next();
 
     let records = GraphFileReader::read_records(&mut reader);
 
