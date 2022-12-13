@@ -1,16 +1,17 @@
-use std::collections::{HashMap};
+use std::collections::HashMap;
 
 use crate::domain::graph::{Graph, Vertex};
 
-pub(crate) type Color = u32;
-pub(crate) type Weight = f32;
-pub(crate) type WeightsMap = HashMap<Vertex, Weight>;
-pub(crate) type VerticesWeights = Vec<(Vertex, Weight)>;
+pub type Color = u32;
+pub type Weight = f32;
+pub type Solution = HashMap<(Vertex, Color), Weight>;
+
+pub(crate) type VerticesWeights = HashMap<Vertex, Weight>;
 pub(crate) type ColorWeights = HashMap<Color, VerticesWeights>;
 
 pub(crate) struct ResidualGraph<'a> {
     pub(crate) graph: &'a Graph,
-    pub(crate) weights: WeightsMap,
+    pub(crate) weights: VerticesWeights,
 }
 
 pub(crate) struct WeightedGraph {
@@ -19,7 +20,21 @@ pub(crate) struct WeightedGraph {
 }
 
 impl<'a> WeightedGraph {
-    pub(crate) fn new(graph: Graph, color_weights: ColorWeights) -> Self {
+    pub fn new(graph: Graph, color_weights: ColorWeights) -> Self {
+        Self {
+            graph,
+            color_weights,
+        }
+    }
+
+    pub fn from_solution(graph: Graph, solution: Solution) -> Self {
+        let mut color_weights = ColorWeights::new();
+
+        for ((vertex, color), weight) in solution {
+            color_weights.entry(color).or_insert_with(VerticesWeights::new);
+            color_weights.get_mut(&color).unwrap().insert(vertex, weight);
+        }
+
         Self {
             graph,
             color_weights,
@@ -27,7 +42,7 @@ impl<'a> WeightedGraph {
     }
 
     pub(crate) fn get_residual(&'a self, color: Color) -> Option<ResidualGraph<'a>> {
-        let weights: WeightsMap = self.color_weights.get(&color)?.iter().cloned().collect();
+        let weights: VerticesWeights = self.color_weights.get(&color)?.clone();
 
         Some(ResidualGraph {
             weights,
