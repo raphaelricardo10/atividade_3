@@ -1,15 +1,16 @@
+from graph import Graph
 from user_cut import GreedyCutCallback
 
 from docplex.mp.model import Model
 
-def solve_lp_graph_problem(num_vertices: int, num_edges: int, edges: 'set[tuple[int, int]]'):
+def generate_model(num_vertices: int, num_edges: int, edges: 'set[tuple[int, int]]'):
     model = Model(name='Graph Coloring Problem with UserCut')
 
     # Tweak some CPLEX parameters so that CPLEX has a harder time to
     # solve the model and our cut separators can actually kick in.
     params = model.parameters
     params.threads = 1
-    params.mip.strategy.heuristicfreq = -1
+    # params.mip.strategy.heuristicfreq = -1
     params.mip.cuts.mircut = -1
     params.mip.cuts.implied = -1
     params.mip.cuts.gomory = -1
@@ -49,9 +50,14 @@ def solve_lp_graph_problem(num_vertices: int, num_edges: int, edges: 'set[tuple[
     fo = model.sum(w[j] for j in range(num_vertices))
     model.minimize(fo)
 
+    return model, x, w
+
+def solve_lp_graph_problem(num_vertices: int, num_edges: int, edges: 'set[tuple[int, int]]'):
+    model, x, w = generate_model(num_vertices, num_edges, edges)
+
     greedy_cut_cb: GreedyCutCallback = model.register_callback(GreedyCutCallback)
-    greedy_cut_cb.x = x
-    greedy_cut_cb.w = w
+    greedy_cut_cb.add_variables_info(x, w)
+    greedy_cut_cb.add_graph_info(num_vertices, num_edges, edges)
 
     solution = model.solve()
     solution.display()
