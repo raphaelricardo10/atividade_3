@@ -1,6 +1,6 @@
 use rstest::rstest;
 
-use super::fixtures::weighted_graph::{weighted_graph_factory, WeightedGraphFactory};
+use super::fixtures::weighted_graph_test::{weighted_graph_factory, WeightedGraphFactory};
 
 #[rstest]
 fn test_can_get_a_residual_graph(weighted_graph_factory: WeightedGraphFactory) {
