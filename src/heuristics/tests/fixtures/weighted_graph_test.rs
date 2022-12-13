@@ -6,7 +6,7 @@ use rand_chacha::ChaCha8Rng;
 use crate::{
     domain::graph::Graph,
     file_reader::graph_file_reader::GraphFileReader,
-    heuristics::weighted_graph::{ColorWeights, VerticesWeights, WeightedGraph, WeightsMap},
+    heuristics::weighted_graph::{ColorWeights, WeightedGraph, VerticesWeights},
 };
 
 pub(crate) type WeightedGraphFactory = Box<dyn FnOnce() -> WeightedGraph>;
@@ -14,7 +14,7 @@ pub(crate) type WeightedGraphFactory = Box<dyn FnOnce() -> WeightedGraph>;
 #[fixture]
 pub(crate) fn graph() -> Graph {
     let filename = format!("{}/TPI_BC_COL_0.txt", env!("INSTANCES_PATH"));
-    GraphFileReader::new(filename.to_string())
+    GraphFileReader::new(filename)
         .read_file()
         .unwrap()
 }
@@ -38,7 +38,7 @@ pub(crate) fn weighted_graph_factory(graph: Graph) -> WeightedGraphFactory {
                 let weight = rng.gen_range(0.0..(1.0 - acc));
                 acc += weight;
 
-                weights_by_color.push((vertex, weight));
+                weights_by_color.insert(vertex, weight);
             }
 
             color_weights.insert(color, weights_by_color);
