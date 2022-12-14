@@ -1,6 +1,10 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
-use super::weighted_graph::{Color, Weight, WeightedGraph};
+use super::{
+    clique::Clique,
+    solution::Solution,
+    weighted_graph::{Color, Weight, WeightedGraph},
+};
 use crate::domain::graph::Vertex;
 
 pub struct GreedySolver {
@@ -13,28 +17,49 @@ impl GreedySolver {
     }
 
     pub fn solve(&self) {
-        todo!()
+        let mut solutions: HashMap<Color, Solution> = HashMap::new();
+
+        for color in self.graph.colors() {
+            let sol = self.solve_for_color(color).unwrap();
+
+            solutions.insert(color, sol);
+        }
     }
 
-    pub fn solve_for_color(&self, color: Color) -> Option<()> {
-        let residual_graph = self.graph.get_residual(color)?;
+    pub fn solve_for_color(&self, color: Color) -> Option<Solution> {
+        let mut residual_graph = self.graph.get_residual(color)?;
 
-        let starting_point = residual_graph
+        let mut clique = Clique::new(residual_graph.graph.edges.clone());
+
+        let mut sorted_weights: Vec<(Vertex, Weight)> = residual_graph
             .weights
             .iter()
-            .max_by(|(_, w1), (_, w2)| w1.partial_cmp(w2).unwrap());
-
-        let mut weights: Vec<(Vertex, Weight)> = residual_graph
-            .weights
-            .iter()
-            // .filter(|(vertex, _)| residual_graph.graph.edges.contains((starting_point.0, )))
             .map(|(vertex, weight)| (*vertex, *weight))
             .collect();
 
-        weights.sort_by(|(_, w1), (_, w2)| w1.partial_cmp(w2).unwrap());
+        sorted_weights.sort_by(|(_, w1), (_, w2)| w2.partial_cmp(w1).unwrap());
 
-        let a = residual_graph;
+        loop {
+            let candidate = sorted_weights
+                .iter()
+                .filter(|(vertex, _)| residual_graph.weights.contains_key(vertex))
+                .find(|(vertex, _)| clique.can_add_vertex(*vertex))
+                .map(|(vertex, _)| vertex);
 
-        Some(())
+            if candidate.is_none() {
+                break;
+            }
+
+            residual_graph.weights.remove(candidate.unwrap());
+            clique.vertices.insert(*candidate.unwrap());
+        }
+
+        let clique_weights = residual_graph
+            .weights
+            .into_iter()
+            .filter(|(vertex, _)| !clique.vertices.contains(vertex))
+            .collect();
+
+        Some(Solution::new(color, clique_weights))
     }
 }
