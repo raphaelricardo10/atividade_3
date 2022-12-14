@@ -1,6 +1,7 @@
 use serde::Deserialize;
 
 #[derive(Deserialize)]
+#[allow(dead_code)]
 pub(crate) struct Header {
     p: String,
     edge: String,
@@ -9,6 +10,7 @@ pub(crate) struct Header {
 }
 
 #[derive(Deserialize)]
+#[allow(dead_code)]
 pub(crate) struct Record {
     e: String,
     pub(crate) from: u32,

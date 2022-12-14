@@ -14,7 +14,7 @@ pub(crate) struct ResidualGraph<'a> {
     pub(crate) weights: VerticesWeights,
 }
 
-pub(crate) struct WeightedGraph {
+pub struct WeightedGraph {
     graph: Graph,
     color_weights: ColorWeights,
 }
@@ -56,6 +56,6 @@ impl<'a> WeightedGraph {
     }
 
     pub(crate) fn colors(&self) -> Range<Color> {
-        return 1..self.graph.num_edges;
+        1..self.graph.num_edges
     }
 }

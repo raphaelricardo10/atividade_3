@@ -1,4 +1,4 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 
 use super::{
     clique::Clique,
@@ -12,7 +12,7 @@ pub struct GreedySolver {
 }
 
 impl GreedySolver {
-    pub(crate) fn new(graph: WeightedGraph) -> Self {
+    pub fn new(graph: WeightedGraph) -> Self {
         Self { graph }
     }
 
