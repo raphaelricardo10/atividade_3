@@ -26,11 +26,11 @@ pub(crate) fn weighted_graph_factory(graph: Graph) -> WeightedGraphFactory {
     let wrapper = move || -> WeightedGraph {
         let mut color_weights = ColorWeights::new();
 
-        for color in 0..graph.num_vertex {
+        for color in 1..=graph.num_vertex {
             let mut acc: f32 = 0.0;
             let mut weights_by_color = VerticesWeights::new();
 
-            for vertex in 0..graph.num_vertex {
+            for vertex in 1..=graph.num_vertex {
                 if acc == 1.0 {
                     break
                 }
