@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, ops::Range};
 
 use crate::domain::graph::{Graph, Vertex};
 
@@ -31,8 +31,13 @@ impl<'a> WeightedGraph {
         let mut color_weights = ColorWeights::new();
 
         for ((vertex, color), weight) in solution {
-            color_weights.entry(color).or_insert_with(VerticesWeights::new);
-            color_weights.get_mut(&color).unwrap().insert(vertex, weight);
+            color_weights
+                .entry(color)
+                .or_insert_with(VerticesWeights::new);
+            color_weights
+                .get_mut(&color)
+                .unwrap()
+                .insert(vertex, weight);
         }
 
         Self {
@@ -48,5 +53,9 @@ impl<'a> WeightedGraph {
             weights,
             graph: &self.graph,
         })
+    }
+
+    pub(crate) fn colors(&self) -> Range<Color> {
+        return 1..self.graph.num_edges;
     }
 }
